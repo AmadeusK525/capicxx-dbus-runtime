@@ -20,13 +20,32 @@ https://covesa.github.io/capicxx-core-tools/
 
 ###### Patching libdbus
 
-CommonAPI-D-Bus needs some api functions of libdbus which are not available in actual libdbus versions. For these additional api functions it is necessary to patch the required libdbus version with all the patches in the directory src/dbus-patches. Use autotools to build libdbus.
+CommonAPI-D-Bus needs some api functions of libdbus which are not available in actual libdbus versions. For these additional api functions it is necessary to patch the required libdbus version with all the patches in the directory src/dbus-patches.
 
 ```bash
+# Version 1.12.0 is tested as working
 $ wget http://dbus.freedesktop.org/releases/dbus/dbus-<VERSION>.tar.gz
 $ tar -xzf dbus-<VERSION>.tar.gz
 $ cd dbus-<VERSION>
+# Patch using a specific patch file
 $ patch -p1 < </path/to/CommonAPI-D-Bus/src/dbus-patches/patch-names>.patch 
+# Or patch all
+$ find </path/to/CommonAPI-D-Bus>/src/dbus-patches -type f -exec sh -c 'patch -p1 < "$1"' _ {} \;
+```
+
+You can either build it using CMake (recommended):
+
+```bash
+$ mkdir build
+$ cd build
+$ cmake ../cmake -D CMAKE_INSTALL_PREFIX=</path to your preferred installation folder for patched libdbus>
+$ make
+$ make install
+```
+
+Or use autotools:
+
+```bash
 $ ./configure --prefix=</path to your preferred installation folder for patched libdbus>
 $ make -C dbus 
 $ make -C dbus install
