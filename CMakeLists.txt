@@ -139,7 +139,7 @@ message(STATUS "CommonAPI Version: ${CommonAPI_VERSION}")
 ###############################################################################
 # find DBus by using the 'pkg-config' tool
 if ("${USE_INSTALLED_DBUS}" STREQUAL "ON")
-    FIND_PACKAGE(DBus1 1.4 REQUIRED CONFIG NO_CMAKE_PACKAGE_REGISTRY)
+    PKG_CHECK_MODULES(DBus1 REQUIRED dbus-1)
 else()
     FIND_PACKAGE(DBus1 1.4 REQUIRED CONFIG NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_SYSTEM_PATH)
 endif()
